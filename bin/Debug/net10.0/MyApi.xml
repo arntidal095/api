@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyApi</name>
+    </assembly>
+    <members>
+        <member name="T:MyApi.Controllers.WeatherController">
+            <summary>
+            Handles weather forecast endpoints.
+            </summary>
+        </member>
+        <member name="M:MyApi.Controllers.WeatherController.GetWeather">
+            <summary>
+                Gets aa 5-day weather forecast for a given city and date.
+            </summary>
+            <returns>List of weather forecasts</returns>
+        </member>
+        <member name="M:MyApi.Controllers.WeatherController.GetDate">
+            <summary>
+                Gets the weather for a specific city and date.
+            </summary>
+            <param name="forecast">city and date.</param>
+            <returns>weather forecast</returns>
+            <response code="200">Returns the weather forecast</response>
+            <response code="400">If the request is invalid</response>
+        </member>
+        <member name="T:MyApi.Models.WeatherForecast">
+            <summary>
+            Represents a weather forecast for a specific date, temperature, and summary.
+            </summary>
+        </member>
+        <member name="P:MyApi.Models.WeatherForecast.Date">
+            <summary>the forcast data.</summary>
+        </member>
+        <member name="P:MyApi.Models.WeatherForecast.TemperatureC">
+            <summary>the temperature in celsius.</summary>
+        </member>
+        <member name="P:MyApi.Models.WeatherForecast.Summary">
+            <summary>the summary of the weather.</summary>
+        </member>
+        <member name="T:MyApi.Models.WeatherRequest">
+            <summary>
+            the date of the weather forcast
+             </summary>
+        </member>
+        <member name="P:MyApi.Models.WeatherRequest.Date">
+            <summary>
+            the date of the weather forcast.
+            </summary>
+        </member>
+        <member name="P:MyApi.Models.WeatherRequest.City">
+            <summary>
+            the city to grt yhe weather forcast for
+            </summary>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Type)">
+            <summary>
+            Generates a documentation comment ID for a type.
+            Example: T:Namespace.Outer+Inner`1 becomes T:Namespace.Outer.Inner`1
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Reflection.PropertyInfo)">
+            <summary>
+            Generates a documentation comment ID for a property.
+            Example: P:Namespace.ContainingType.PropertyName or for an indexer P:Namespace.ContainingType.Item(System.Int32)
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Type,System.String)">
+            <summary>
+            Generates a documentation comment ID for a property given its container type and property name.
+            Example: P:Namespace.ContainingType.PropertyName
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Reflection.MethodInfo)">
+            <summary>
+            Generates a documentation comment ID for a method (or constructor).
+            For example:
+              M:Namespace.ContainingType.MethodName(ParamType1,ParamType2)~ReturnType
+              M:Namespace.ContainingType.#ctor(ParamType)
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.GetTypeDocId(System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            Generates a documentation ID string for a type.
+            This method handles nested types (replacing '+' with '.'),
+            generic types, arrays, pointers, by-ref types, and generic parameters.
+            The <paramref name="includeGenericArguments"/> flag controls whether
+            constructed generic type arguments are emitted, while <paramref name="omitGenericArity"/>
+            controls whether the generic arity marker (e.g. "`1") is appended.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.NormalizeDocId(System.String)">
+            <summary>
+            Normalizes a documentation comment ID to match the compiler-style format.
+            Strips the return type suffix for ordinary methods but retains it for conversion operators.
+            </summary>
+            <param name="docId">The documentation comment ID to normalize.</param>
+            <returns>The normalized documentation comment ID.</returns>
+        </member>
+    </members>
+</doc>

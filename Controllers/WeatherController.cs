@@ -3,6 +3,9 @@ using MyApi.Models;
 
 namespace MyApi.Controllers;
 
+/// <summary>
+/// Handles weather forecast endpoints.
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 public class WeatherController : ControllerBase
@@ -14,6 +17,10 @@ public class WeatherController : ControllerBase
         "Sweltering", "Scorching"
     };
 
+/// <summary>
+///     Gets aa 5-day weather forecast for a given city and date.
+/// </summary>
+/// <returns>List of weather forecasts</returns>
     [HttpGet("request")]
     public IActionResult GetWeather()
     {
@@ -25,26 +32,22 @@ public class WeatherController : ControllerBase
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
-
         return Ok(forecast);
     }
 
+/// <summary>
+///     Gets the weather for a specific city and date.
+/// </summary>
+/// <param name="forecast">city and date.</param>
+/// <returns>weather forecast</returns>
+/// <response code="200">Returns the weather forecast</response>
+/// <response code="400">If the request is invalid</response>
     [HttpGet("datey")]
     public IActionResult GetDate()
     {
         return Ok(DateOnly.FromDateTime(DateTime.Now));
     }
 
-    [HttpPost]
-public IActionResult CreateWeatherForecast(WeatherForecast forecast)
-{
-    if (!ModelState.IsValid)
-    {
-        return BadRequest(ModelState);
-    }
-
-    return Ok(forecast);
-}
 
 
 [HttpPost]
