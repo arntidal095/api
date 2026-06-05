@@ -11,18 +11,24 @@
         </member>
         <member name="M:MyApi.Controllers.WeatherController.GetWeather">
             <summary>
-                Gets aa 5-day weather forecast for a given city and date.
+            Gets a 5-day weather forecast.
             </summary>
-            <returns>List of weather forecasts</returns>
+            <returns>List of weather forecasts.</returns>
         </member>
         <member name="M:MyApi.Controllers.WeatherController.GetDate">
             <summary>
-                Gets the weather for a specific city and date.
+            Gets today's date.
             </summary>
-            <param name="forecast">city and date.</param>
-            <returns>weather forecast</returns>
-            <response code="200">Returns the weather forecast</response>
-            <response code="400">If the request is invalid</response>
+            <returns>The current date.</returns>
+        </member>
+        <member name="M:MyApi.Controllers.WeatherController.GetForecast(MyApi.Models.WeatherRequest)">
+            <summary>
+            Gets a weather forecast for a specified city and date.
+            </summary>
+            <param name="request">The weather request containing city and date.</param>
+            <returns>A weather forecast.</returns>
+            <response code="200">Returns the weather forecast.</response>
+            <response code="400">If the request is invalid.</response>
         </member>
         <member name="T:MyApi.Models.WeatherForecast">
             <summary>

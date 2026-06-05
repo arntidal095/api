@@ -3,20 +3,20 @@ using System.ComponentModel.DataAnnotations;
 namespace MyApi.Models;
 
 /// <summary>
-/// the date of the weather forcast
-///  </summary>
+/// Represents a request for a weather forecast.
+/// </summary>
 public class WeatherRequest
 {
     /// <summary>
-    /// the date of the weather forcast.
+    /// The date for which the weather forecast is requested.
     /// </summary>
-   [Required]
-   public DateOnly Date { get; set; }
+    [Required]
+    public DateOnly Date { get; set; }
 
-   /// <summary>
-   /// the city to grt yhe weather forcast for
-   /// </summary>
-   [Required]
-   [StringLength(50, MinimumLength = 2)]
-   public string City { get; set; } = string.Empty;
+    /// <summary>
+    /// The city for which the weather forecast is requested.
+    /// </summary>
+    [Required]
+    [StringLength(50, MinimumLength = 2)]
+    public string City { get; set; } = string.Empty;
 }

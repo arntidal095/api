@@ -3,22 +3,27 @@ using System.ComponentModel.DataAnnotations;
 namespace MyApi.Models;
 
 /// <summary>
-/// Represents a weather forecast for a specific date, temperature, and summary.
+/// Represents a weather forecast for a specific date,
+/// temperature, and weather summary.
 /// </summary>
-    public class WeatherForecast
-
+public class WeatherForecast
 {
-    ///<summary>the forcast data.</summary>
+    /// <summary>
+    /// The date of the forecast.
+    /// </summary>
     [Required]
     public DateOnly Date { get; set; }
 
-    ///<summary>the temperature in celsius.</summary>
+    /// <summary>
+    /// The temperature in degrees Celsius.
+    /// </summary>
     [Range(-20, 55)]
     public int TemperatureC { get; set; }
-    ///<summary>the summary of the weather.</summary>
+
+    /// <summary>
+    /// A short description of the weather conditions.
+    /// </summary>
     [Required]
     [StringLength(20)]
     public string Summary { get; set; } = string.Empty;
-
-    
 }
