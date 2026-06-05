@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MyApi.Models;
 
 namespace MyApi.Controllers;
 
@@ -13,7 +14,7 @@ public class WeatherController : ControllerBase
         "Sweltering", "Scorching"
     };
 
-    [HttpGet]
+    [HttpGet("request")]
     public IActionResult GetWeather()
     {
         var forecast = Enumerable.Range(1, 5)
@@ -28,9 +29,37 @@ public class WeatherController : ControllerBase
         return Ok(forecast);
     }
 
-    [HttpGet("date")]
+    [HttpGet("datey")]
     public IActionResult GetDate()
     {
         return Ok(DateOnly.FromDateTime(DateTime.Now));
     }
+
+    [HttpPost]
+public IActionResult CreateWeatherForecast(WeatherForecast forecast)
+{
+    if (!ModelState.IsValid)
+    {
+        return BadRequest(ModelState);
+    }
+
+    return Ok(forecast);
+}
+
+
+[HttpPost]
+public IActionResult GetWeatherByCity([FromBody] WeatherRequest request)
+{
+   if (!ModelState.IsValid)
+   {
+       return BadRequest(ModelState);
+   }
+   return Ok(new
+   {
+       request.City,
+       request.Date,
+       Temperature = Random.Shared.Next(-20, 55),
+       Summary = "Sunny"
+   });
+}
 }
