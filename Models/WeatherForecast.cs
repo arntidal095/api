@@ -26,4 +26,6 @@ public class WeatherForecast
     [Required]
     [StringLength(20)]
     public string Summary { get; set; } = string.Empty;
+
+    public string Message { get; set; } = string.Empty;
 }

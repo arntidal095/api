@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MyApi.Models;
+using MyApi.Services;
 
 namespace MyApi.Controllers;
 
@@ -10,12 +11,12 @@ namespace MyApi.Controllers;
 [Route("[controller]")]
 public class WeatherController : ControllerBase
 {
-    private static readonly string[] Summaries =
+    private readonly WeatherService _weatherService;
+
+    public WeatherController(WeatherService weatherService)
     {
-        "Freezing", "Bracing", "Chilly", "Cool",
-        "Mild", "Warm", "Balmy", "Hot",
-        "Sweltering", "Scorching"
-    };
+        _weatherService = weatherService;
+    }
 
     private static readonly string[] ValidCities =
     {
@@ -29,71 +30,112 @@ public class WeatherController : ControllerBase
     /// <summary>
     /// Gets a 5-day weather forecast.
     /// </summary>
-    /// <returns>List of weather forecasts.</returns>
     [HttpGet]
     public IActionResult GetWeather()
     {
-        var forecast = Enumerable.Range(1, 5)
-            .Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+        try
+        {
+            var forecast = _weatherService.Get5DayForecast();
 
-        return Ok(forecast);
+            return Ok(new ApiResponse<List<WeatherForecast>>
+            {
+                Success = true,
+                Message = "Forecast retrieved successfully",
+                Data = forecast
+            });
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, new ApiResponse<object>
+            {
+                Success = false,
+                Message = "Something went wrong",
+                Data = null
+            });
+        }
     }
 
     /// <summary>
     /// Gets today's date.
     /// </summary>
-    /// <returns>The current date.</returns>
     [HttpGet("date")]
     public IActionResult GetDate()
     {
-        return Ok(DateOnly.FromDateTime(DateTime.Now));
+        return Ok(new ApiResponse<string>
+        {
+            Success = true,
+            Message = "Date retrieved",
+            Data = DateOnly.FromDateTime(DateTime.Now).ToString()
+        });
     }
 
     /// <summary>
     /// Gets a weather forecast for a specified city and date.
     /// </summary>
-    /// <param name="request">The weather request containing city and date.</param>
-    /// <returns>A weather forecast.</returns>
-    /// <response code="200">Returns the weather forecast.</response>
-    /// <response code="400">If the request is invalid.</response>
     [HttpPost("forecast")]
     public IActionResult GetForecast([FromBody] WeatherRequest request)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    Success = false,
+                    Message = "Invalid request data",
+                    Data = ModelState
+                });
+            }
+
+            if (!ValidCities.Contains(request.City, StringComparer.OrdinalIgnoreCase))
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    Success = false,
+                    Message = "Invalid city",
+                    Data = null
+                });
+            }
+
+            var today = DateOnly.FromDateTime(DateTime.Today);
+
+            if (request.Date < today)
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    Success = false,
+                    Message = "Date cannot be in the past",
+                    Data = null
+                });
+            }
+
+            if (request.Date > today.AddDays(30))
+            {
+                return BadRequest(new ApiResponse<object>
+                {
+                    Success = false,
+                    Message = "Date cannot be more than 30 days ahead",
+                    Data = null
+                });
+            }
+
+            var forecast = _weatherService.GenerateForecast(request.Date);
+
+            return Ok(new ApiResponse<WeatherForecast>
+            {
+                Success = true,
+                Message = "Forecast generated successfully",
+                Data = forecast
+            });
         }
-
-        if (!ValidCities.Contains(request.City, StringComparer.OrdinalIgnoreCase))
+        catch (Exception)
         {
-            return BadRequest("Invalid city.");
+            return StatusCode(500, new ApiResponse<object>
+            {
+                Success = false,
+                Message = "Unexpected server error",
+                Data = null
+            });
         }
-
-        var today = DateOnly.FromDateTime(DateTime.Today);
-
-        if (request.Date < today)
-        {
-            return BadRequest("Date cannot be in the past.");
-        }
-
-        if (request.Date > today.AddDays(30))
-        {
-            return BadRequest("Date cannot be more than 30 days in the future.");
-        }
-
-        var forecast = new WeatherForecast
-        {
-            Date = request.Date,
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        };
-
-        return Ok(forecast);
     }
 }

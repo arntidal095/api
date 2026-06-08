@@ -1,31 +1,40 @@
+using MyApi.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+/// --------------------
+/// SERVICES REGISTRATION
+/// --------------------
+
+// Controllers (API support)
 builder.Services.AddControllers();
+
+// Swagger (API testing UI)
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddOpenApi();
+
+/// Your WeatherService (Dependency Injection)
+builder.Services.AddScoped<WeatherService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+/// --------------------
+/// MIDDLEWARE PIPELINE
+/// --------------------
+
 if (app.Environment.IsDevelopment())
 {
-   //app.MapOpenApi();
     app.UseSwagger();
-    app.UseSwaggerUI(); 
+    app.UseSwaggerUI();
 }
 
+// Redirect HTTP → HTTPS
 app.UseHttpsRedirection();
 
+// Enable authorization system (even if not used yet)
+app.UseAuthorization();
 
-// app.MapGet("/date", () =>
-// {
-//     return DateOnly.FromDateTime(DateTime.Now);
-// })
-// .WithName("GetDate");
-
-
+// Map controllers to routes
 app.MapControllers();
-app.Run();
 
+app.Run();
