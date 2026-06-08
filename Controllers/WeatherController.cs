@@ -27,14 +27,27 @@ public class WeatherController : ControllerBase
         "Kano"
     };
 
+    private readonly ILogger<WeatherController> _logger;
+
+public WeatherController(
+    WeatherService weatherService,
+    ILogger<WeatherController> logger)
+{
+    _weatherService = weatherService;
+    _logger = logger;
+}
+
     /// <summary>
     /// Gets a 5-day weather forecast.
     /// </summary>
     [HttpGet]
     public IActionResult GetWeather()
     {
+        _logger.LogInformation("GetWeather endpoint called");
+        
         try
         {
+            throw new Exception("Sample exception outside try-catch");
             var forecast = _weatherService.Get5DayForecast();
 
             return Ok(new ApiResponse<List<WeatherForecast>>
@@ -46,6 +59,7 @@ public class WeatherController : ControllerBase
         }
         catch (Exception)
         {
+            _logger.LogError("An error occurred while retrieving weather forecast.");
             return StatusCode(500, new ApiResponse<object>
             {
                 Success = false,
@@ -75,6 +89,7 @@ public class WeatherController : ControllerBase
     [HttpPost("forecast")]
     public IActionResult GetForecast([FromBody] WeatherRequest request)
     {
+
         try
         {
             if (!ModelState.IsValid)

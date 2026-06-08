@@ -13,50 +13,85 @@
             <summary>
             Gets a 5-day weather forecast.
             </summary>
-            <returns>List of weather forecasts.</returns>
         </member>
         <member name="M:MyApi.Controllers.WeatherController.GetDate">
             <summary>
             Gets today's date.
             </summary>
-            <returns>The current date.</returns>
         </member>
-        <member name="M:MyApi.Controllers.WeatherController.GetForecast(MyApi.Models.WeatherRequest)">
+        <member name="M:MyApi.Controllers.WeatherController.GetForecast(MyApi.Services.WeatherRequest)">
             <summary>
             Gets a weather forecast for a specified city and date.
             </summary>
-            <param name="request">The weather request containing city and date.</param>
-            <returns>A weather forecast.</returns>
-            <response code="200">Returns the weather forecast.</response>
-            <response code="400">If the request is invalid.</response>
+        </member>
+        <member name="T:MyApi.Models.ApiResponse`1">
+            <summary>
+            Standard wrapper for all API responses.
+            Ensures consistent response structure across success and error cases.
+            </summary>
+            <typeparam name="T">Type of the data being returned.</typeparam>
+        </member>
+        <member name="P:MyApi.Models.ApiResponse`1.Success">
+            <summary>
+            Indicates whether the request was successful.
+            </summary>
+        </member>
+        <member name="P:MyApi.Models.ApiResponse`1.Message">
+            <summary>
+            A message describing the result of the operation.
+            </summary>
+        </member>
+        <member name="P:MyApi.Models.ApiResponse`1.Data">
+            <summary>
+            The actual data returned by the API.
+            Can be null in error responses.
+            </summary>
         </member>
         <member name="T:MyApi.Models.WeatherForecast">
             <summary>
-            Represents a weather forecast for a specific date, temperature, and summary.
+            Represents a weather forecast for a specific date,
+            temperature, and weather summary.
             </summary>
         </member>
         <member name="P:MyApi.Models.WeatherForecast.Date">
-            <summary>the forcast data.</summary>
-        </member>
-        <member name="P:MyApi.Models.WeatherForecast.TemperatureC">
-            <summary>the temperature in celsius.</summary>
-        </member>
-        <member name="P:MyApi.Models.WeatherForecast.Summary">
-            <summary>the summary of the weather.</summary>
-        </member>
-        <member name="T:MyApi.Models.WeatherRequest">
             <summary>
-            the date of the weather forcast
-             </summary>
-        </member>
-        <member name="P:MyApi.Models.WeatherRequest.Date">
-            <summary>
-            the date of the weather forcast.
+            The date of the forecast.
             </summary>
         </member>
-        <member name="P:MyApi.Models.WeatherRequest.City">
+        <member name="P:MyApi.Models.WeatherForecast.TemperatureC">
             <summary>
-            the city to grt yhe weather forcast for
+            The temperature in degrees Celsius.
+            </summary>
+        </member>
+        <member name="P:MyApi.Models.WeatherForecast.Summary">
+            <summary>
+            A short description of the weather conditions.
+            </summary>
+        </member>
+        <member name="T:MyApi.Services.WeatherService">
+            <summary>
+            Provides weather-related business logic such as generating forecasts.
+            Acts as the service layer between controllers and data logic.
+            </summary>
+        </member>
+        <member name="M:MyApi.Services.WeatherService.Get5DayForecast">
+            <summary>
+            Generates a 5-day weather forecast.
+            </summary>
+        </member>
+        <member name="M:MyApi.Services.WeatherService.GenerateForecast(System.DateOnly)">
+            <summary>
+            Generates a single-day forecast for a given date.
+            </summary>
+        </member>
+        <member name="M:MyApi.Services.WeatherService.GetRandomSummary">
+            <summary>
+            Picks a random weather summary.
+            </summary>
+        </member>
+        <member name="T:MyApi.Services.WeatherRequest">
+            <summary>
+            Represents a request for a weather forecast.
             </summary>
         </member>
         <member name="T:Program">
